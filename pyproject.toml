@@ -1,0 +1,61 @@
+[project]
+name = "mygeopy"
+dynamic = ["version"]
+description = "Minimal Library for Testing Functions"
+readme = "README.md"
+authors = [
+    { name = "Lucio Queiroz", email = "luciorqueiroz@gmail.com" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+]
+
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+requires-python = ">=3.10"
+
+dependencies = []
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/luciorq/mygeopy"
+"Documentation" = "https://luciorq.github.io/mygeopy/"
+"Source Code" = "https://github.com/luciorq/mygeopy"
+"Bug Tracker" = "https://github.com/luciorq/mygeopy/issues"
+"User Support" = "https://github.com/luciorq/mygeopy/issues"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+fallback_version = "0.0.0+nogit"
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+mygeopy = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+tests = { features = ["tests"], solve-group = "default" }
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+python = ">=3.13.5,<3.14"
+pip = ">=25.2,<26"
