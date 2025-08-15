@@ -1,0 +1,4 @@
+site_name: "My geopy Docs"
+site_url: https://luciorq.github.io/mygeopy/
+theme:
+  name: material
