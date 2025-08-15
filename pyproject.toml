@@ -21,6 +21,12 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
+examples = [
+#    "jupyter",
+]
+docs = [
+    "mkdocs-material",
+]
 tests = [
     "pytest",
 ]
@@ -45,7 +51,7 @@ addopts = "--doctest-modules"
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
-platforms = ["osx-arm64"]
+platforms = ["win-64", "linux-64", "osx-arm64", "osx-64"]
 
 [tool.pixi.pypi-dependencies]
 mygeopy = { path = ".", editable = true }
@@ -55,6 +61,8 @@ default = { solve-group = "default" }
 tests = { features = ["tests"], solve-group = "default" }
 
 [tool.pixi.tasks]
+test = "python -m pytest"
+# build = "python -m build"
 
 [tool.pixi.dependencies]
 python = ">=3.13.5,<3.14"
