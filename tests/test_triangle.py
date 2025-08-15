@@ -1,5 +1,19 @@
 from mygeopy.triangle import hypot
 import pytest
+import math
+
+@pytest.mark.parametrize("a", "b", "c", [
+        (1, 1, 1.414213562),
+        (3, 4, 5.0),
+        (5, 12, 13.0),
+        (8, 15, 17.0),
+        (7, 24, 25.0)
+    ]
+)
+
+def test_hypot_calculation(a, b, c):
+    """Test the basic calculation of the hypotenuse with parametrized tests."""
+    assert math.isclose(hypot(a, b), c) # <--- Switch `isclose` for float comparisons; `allclose` for NumPy arrays
 
 def test_hypot_calculation():
     """Test the basic calculation of the hypotenuse."""
