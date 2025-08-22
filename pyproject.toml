@@ -1,20 +1,33 @@
+# `./pyproject.toml`
+
+# This file tries to follow the recommendations from:
+# + <https://packaging.python.org/en/latest/guides/writing-pyproject-toml/>
 [project]
 name = "mygeopy"
-dynamic = ["version"]
-description = "Minimal Library for Testing Functions"
-readme = "README.md"
+dynamic = [ "version" ]
+description = "Minimal Library With Examples in Bioinformatics"
 authors = [
     { name = "Lucio Queiroz", email = "luciorqueiroz@gmail.com" }
 ]
+maintainers = [
+    { name = "luciorq", email = "luciorqueiroz@gmail.com" },
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = "MIT"
+license-files = [
+  # "LICEN[CS]E*",
+  "LICENSE.txt",
+  # include/"LICEN[CS]E*", # e.g. for vendored libraries
+]
+keywords = ["bioinformatics", "example"]
+# For available Classifiers, see <https://pypi.org/classifiers/>
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD License",
+    # "License :: OSI Approved :: BSD License",
+    "License :: OSI Approved :: MIT License",
 ]
-
-license = "MIT"
-license-files = ["LICENSE.txt"]
 
 requires-python = ">=3.10"
 
@@ -31,17 +44,39 @@ tests = [
     "pytest",
 ]
 
-[project.urls]
-"Homepage" = "https://github.com/luciorq/mygeopy"
-"Documentation" = "https://luciorq.github.io/mygeopy/"
-"Source Code" = "https://github.com/luciorq/mygeopy"
-"Bug Tracker" = "https://github.com/luciorq/mygeopy/issues"
-"User Support" = "https://github.com/luciorq/mygeopy/issues"
+# Entrypoints for CLI tools
+[project.scripts]
+#my-cmd = "mygeopy:main"
 
+# The labels (URL titles) below should follow PYPI recommendations:
+# + <https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels>
+# + This is important for projects that consume metadata.
+# + Commented lines represent the recommended lables.
+[project.urls]
+homepage = "https://github.com/luciorq/mygeopy"
+source = "https://github.com/luciorq/mygeopy"
+# download = ""
+# changelog = ""
+# reloeasenotes = ""
+documentation = "https://luciorq.github.io/mygeopy/"
+issues = "https://github.com/luciorq/mygeopy/issues"
+# funding = ""
+
+# ============== END of project table ========================
+
+# ========================================================================++++
+# Build Systems
+# ========================================================================++++
 [build-system]
-requires = ["hatchling", "hatch-vcs"]
+requires = [
+  "hatchling",
+  "hatch-vcs",
+]
 build-backend = "hatchling.build"
 
+# ========================================================================++++
+# Specialized Tools
+# ========================================================================++++
 [tool.hatch.version]
 source = "vcs"
 fallback_version = "0.0.0+nogit"
@@ -67,3 +102,4 @@ test = "python -m pytest"
 [tool.pixi.dependencies]
 python = ">=3.13.5,<3.14"
 pip = ">=25.2,<26"
+
