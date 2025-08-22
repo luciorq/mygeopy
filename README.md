@@ -34,6 +34,18 @@ pixi run python -m mkdocs serve;
 pixi run hatch build;
 ```
 
-## Should I use `uv publish`?
+## Using `uv`
+
+### Build package
+
+```bash
+# uv init
+# uv pip install --all-extras --editable .
+uv pip install --editable .[docs,tests]
+uv tool run pytest
+uv build
+```
+
+### Should I use `uv publish`?
 
 Check more on that.
