@@ -102,4 +102,5 @@ test = "python -m pytest"
 [tool.pixi.dependencies]
 python = ">=3.13.5,<3.14"
 pip = ">=25.2,<26"
+python-build = ">=1.3.0,<2"
 

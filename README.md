@@ -30,8 +30,13 @@ pixi run python -m mkdocs serve;
 
 ## Building the Package
 
+Check `pixi-build` Python backend.
+
 ```bash
-pixi run hatch build;
+# pixi run hatch build;
+# on conda-forge the build module is available through `python-build` package.
+pixi add python-build;
+pixi run python -m build;
 ```
 
 ## Using `uv`
