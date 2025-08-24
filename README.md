@@ -5,6 +5,7 @@ Project developed during the URSSI 2025 Summer School.
 Using `pytest` and `doctest` for testing.
 
 Using `mkdocs-material` for documentation.
+
 Also, I need to check `myst-parser`.
 
 ## Testing
@@ -13,8 +14,10 @@ Also, I need to check `myst-parser`.
 pixi init;
 
 pixi add python pip;
-# `pytest` and `doctest` are in the `tests` `optional-dependencies`
-pixi run python -m pip install -e ".[examples,docs,tests]";
+# pixi run python -m pip install -e ".[examples,docs,tests]";
+# `pytest` and `doctest` are in the `tests` `dependency-group`.
+# `rich` and `click` are in the `cli` `optional-dependencies`.
+pixi run python -m pip install --group=all --editable .[cli];
 
 pixi run python -m pytest -vvv;
 ```
@@ -22,7 +25,7 @@ pixi run python -m pytest -vvv;
 ## Build Documentation
 
 ```bash
-pixi run python -m mkdocs new . ;
+pixi run python -m mkdocs new .;
 
 pixi run python -m mkdocs build;
 pixi run python -m mkdocs serve;
@@ -39,16 +42,22 @@ pixi add python-build;
 pixi run python -m build;
 ```
 
-## Using `uv`
+## Using `uv` as the environment manager
+
+Using `uv` as the environment manager is closer to traditional development workflows.
 
 ### Build package
 
 ```bash
-# uv init
-# uv pip install --all-extras --editable .
-uv pip install --editable .[docs,tests]
-uv tool run pytest
-uv build
+# uv init;
+# uv pip install --all-extras --editable .;
+# uv pip install --group=tests --group=docs --editable .[cli];
+uv pip install --group=all --editable .[cli];
+uv run mkdocs serve;
+uv tool run ruff check;
+uv tool run ruff check;
+uv tool run pytest;
+uv build;
 ```
 
 ### Should I use `uv publish`?
