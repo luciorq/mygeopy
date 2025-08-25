@@ -44,7 +44,8 @@ pixi run python -m build;
 
 ## Using `uv` as the environment manager
 
-Using `uv` as the environment manager is closer to traditional development workflows.
+Using `uv` as the environment manager is closer to traditional development
+workflows.
 
 ### Build package
 
@@ -52,11 +53,14 @@ Using `uv` as the environment manager is closer to traditional development workf
 # uv init;
 # uv pip install --all-extras --editable .;
 # uv pip install --group=tests --group=docs --editable .[cli];
-uv pip install --group=all --editable .[cli];
-uv run mkdocs serve;
+# uv pip install --group=all --editable .[cli];
+
+uv pip install --editable .[cli];
+
+uv run --group=docs mkdocs serve;
 uv tool run ruff check;
-uv tool run ruff check;
-uv tool run pytest;
+uv tool run rumdl check;
+uv run --group tests pytest;
 uv build;
 ```
 
