@@ -706,11 +706,11 @@ packages:
   timestamp: 1727963768015
 - pypi: ./
   name: mygeopy
-  version: 0.1.dev15+gc2df8f9f5.d20250822
-  sha256: c19ad9eaffb74c18cec39dd2232b26b9e002ead4f4d8e43e4b09f162aacf1543
+  version: 0.1.dev18+g3ca46df66
+  sha256: 282be5ada8d0927984157fdfc7557029aa242a7d5f74d0c4299660d7e8534991
   requires_dist:
-  - mkdocs-material ; extra == 'docs'
-  - pytest ; extra == 'tests'
+  - click ; extra == 'cli'
+  - rich ; extra == 'cli'
   requires_python: '>=3.10'
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/linux-64/ncurses-6.5-h2d0b736_3.conda
