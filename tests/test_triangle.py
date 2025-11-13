@@ -2,6 +2,7 @@ from mygeopy.triangle import hypot
 import pytest
 import math
 
+# The decoration should be just before the function definition
 @pytest.mark.parametrize("a, b, c", [
         (1, 1, 1.414213562),
         (3, 4, 5.0),
@@ -10,10 +11,10 @@ import math
         (7, 24, 25.0)
     ]
 )
-
 def test_hypot_calculation_parametrized(a: float, b: float, c: float):
     """Test the basic calculation of the hypotenuse with parametrized tests."""
-    assert math.isclose(hypot(a, b), c) # <--- Switch `isclose` for float comparisons; `allclose` for NumPy arrays
+    # NOTE: Switch `isclose` is used for float comparisons, `allclose` for NumPy arrays.
+    assert math.isclose(hypot(a, b), c)
 
 def test_hypot_calculation():
     """Test the basic calculation of the hypotenuse."""

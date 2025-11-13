@@ -10,17 +10,18 @@ authors = [
     { name = "Lucio Queiroz", email = "luciorqueiroz@gmail.com" }
 ]
 maintainers = [
-    { name = "luciorq", email = "luciorqueiroz@gmail.com" },
+    { name = "Lucio Queiroz", email = "luciorqueiroz@gmail.com" },
 ]
 readme = { file = "README.md", content-type = "text/markdown" }
 license = "MIT"
 license-files = [
+  # "licen[cs]e*",
   # "LICEN[CS]E*",
   "LICENSE.txt",
-  # include/"LICEN[CS]E*", # e.g. for vendored libraries
+  # include/"licen[cs]e*", # e.g. for vendored libraries
 ]
 keywords = [ "bioinformatics", "example" ]
-# For available Classifiers, see <https://pypi.org/classifiers/>
+# for available classifiers, see <https://pypi.org/classifiers/>
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Education",
@@ -29,10 +30,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 
+# Check spec 0 for Good practices around versions support
+# `https://scientific-python.org/specs/spec-0000/`
 requires-python = ">=3.10"
 
 dependencies = []
 
+# Use `pixi add --pypi click --pinning-strategy='latest-up'` for adding deps
 [project.optional-dependencies]
 cli = [
     "rich",
@@ -40,24 +44,35 @@ cli = [
 ]
 
 [dependency-groups]
-all = [
-    { include-group = "examples" },
-    { include-group = "docs" },
-    { include-group = "tests" },
-]
+# all = [
+#     { include-group = "examples" },
+#     { include-group = "docs" },
+#     { include-group = "tests" },
+# ]
 examples = [
     "jupyter",
 ]
-docs = [
-    "mkdocs-material",
-]
+# `pixi add --feature tests --pypi pytest --pinning-strategy='latest-up'`
 tests = [
-    "pytest",
+  "pytest>=8.4.1"
 ]
+# `pixi add --feature lint --pypi rumdl ruff yore mypy --pinning-strategy='latest-up'`
+lint = [
+  "rumdl>=0.0.136",
+  "ruff>=0.12.11",
+  "yore>=0.4.5",
+  "mypy>=1.17.1",
+]
+# `pixi add --feature docs --pypi mkdocs-material --pinning-strategy='latest-up'`
+docs = [
+  "mkdocs-material>=9.6.18"
+]
+
+
 
 # Entrypoints for CLI tools
 [project.scripts]
-#my-cmd = "mygeopy:main"
+# my-cmd = "mygeopy:main"
 
 # The labels (URL titles) below should follow PYPI recommendations:
 # + <https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels>
@@ -68,16 +83,16 @@ homepage = "https://github.com/luciorq/mygeopy"
 source = "https://github.com/luciorq/mygeopy"
 # download = ""
 # changelog = ""
-# reloeasenotes = ""
+# releasenotes = ""
 documentation = "https://luciorq.github.io/mygeopy/"
 issues = "https://github.com/luciorq/mygeopy/issues"
 # funding = ""
 
 # ============== END of project table ========================
 
-# ========================================================================++++
+# =============================================================================
 # Build Systems
-# ========================================================================++++
+# =============================================================================
 [build-system]
 requires = [
   "hatchling",
@@ -85,9 +100,9 @@ requires = [
 ]
 build-backend = "hatchling.build"
 
-# ========================================================================++++
+# =============================================================================
 # Specialized Tools
-# ========================================================================++++
+# =============================================================================
 [tool.hatch.version]
 source = "vcs"
 fallback_version = "0.0.0+nogit"
@@ -95,9 +110,41 @@ fallback_version = "0.0.0+nogit"
 [tool.pytest.ini_options]
 addopts = "--doctest-modules"
 
+# MyPy
+[tool.mypy]
+# The default is using the version from the default `python` in the environment
+# + python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+# Marimo Notebooks
+[tool.marimo.save]
+autosave = "after_delay"
+autosave_delay = 1000
+format_on_save = true
+
+[tool.marimo.package_management]
+manager = "pixi"
+
+[tool.marimo.ai]
+rules = "- prefer polars over pandas\n- make charts using altair"
+
+# =============================================================================
+# Pixi Configuration
+# =============================================================================
 [tool.pixi.workspace]
+# `pixi workspace channels ...`
 channels = ["conda-forge"]
+# `pixi workspace platforms ...`
 platforms = ["win-64", "linux-64", "osx-arm64", "osx-64"]
+
+# `pixi add <dep_name>`
+[tool.pixi.dependencies]
+python = ">=3.13.5,<3.14"
+pip = ">=25.2,<26"
+python-build = ">=1.3.0,<2"
 
 [tool.pixi.pypi-dependencies]
 mygeopy = { path = ".", editable = true }
@@ -105,12 +152,32 @@ mygeopy = { path = ".", editable = true }
 [tool.pixi.environments]
 default = { solve-group = "default" }
 tests = { features = ["tests"], solve-group = "default" }
+lint = { features = ["lint"], solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
 
 [tool.pixi.tasks]
-test = "python -m pytest"
+# test = "python -m pytest"
 # build = "python -m build"
 
-[tool.pixi.dependencies]
-python = ">=3.13.5,<3.14"
-pip = ">=25.2,<26"
-python-build = ">=1.3.0,<2"
+[tool.pixi.feature.tests.tasks]
+# `pixi task add --feature tests test 'python -m pytest -vvv'`
+test = "python -m pytest -vvv"
+
+[tool.pixi.feature.lint.tasks]
+# `pixi task add --feature lint run_ruff ruff check`
+run_ruff = { cmd = "python -m ruff check" }
+run_yore = { cmd = "python -m yore check" }
+run_mypy = { cmd = "python -m mypy {{ src_path }}", args = [{ "arg" = "src_path", "default" = "./src/" }] }
+# `pixi task add --feature lint run_rumdl rumdl check`
+run_rumdl = { cmd = "rumdl check" }
+
+# `pixi task add --depends-on run_ruff --depends-on run_rumdl --feature lint lint "echo 'Linting ...'"`
+lint = { cmd = "echo 'Linting ...'", depends-on = ["run_ruff", "run_rumdl"] }
+
+[tool.pixi.feature.docs.tasks]
+# `pixi task add --feature docs test 'python -m mkdocs new .'`
+docs_init = "python -m mkdocs new ."
+# `pixi task add --feature docs test 'python -m mkdocs build'`
+docs_build = "python -m mkdocs build"
+# `pixi task add --feature docs test 'python -m mkdocs serve'`
+docs_serve = "python -m mkdocs serve"

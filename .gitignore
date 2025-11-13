@@ -219,3 +219,5 @@ cython_debug/
 # luciorq added this
 .DS_Store
 .vscode/
+
+.Rapp.history
