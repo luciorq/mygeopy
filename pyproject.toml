@@ -119,6 +119,10 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 
+# Rumdl - markdown linter
+[tool.rumdl]
+line-length = 120
+
 # Marimo Notebooks
 [tool.marimo.save]
 autosave = "after_delay"
